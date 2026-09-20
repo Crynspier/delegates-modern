@@ -257,12 +257,12 @@ test('differential: auto() matches legacy for ordinary descriptors apart from do
 
   assert.equal(modernResult.returnType, 'delegator')
   assert.equal(legacyResult.returnType, 'undefined')
-  assert.equal(modernComparable.methodResult, legacyComparable.methodResult)
-  assert.equal(modernComparable.computedGet, legacyComparable.computedGet)
-  assert.equal(modernComparable.computedSet(), legacyComparable.computedSet())
-  assert.equal(modernComparable.mutableGet, legacyComparable.mutableGet)
-  assert.equal(modernComparable.mutableAfterSet(), legacyComparable.mutableAfterSet())
-  assert.equal(modernComparable.constantGet, legacyComparable.constantGet)
+  assert.equal(modernResult.methodResult, legacyResult.methodResult)
+  assert.equal(modernResult.computedGet, legacyResult.computedGet)
+  assert.equal(modernResult.computedSet(), legacyResult.computedSet())
+  assert.equal(modernResult.mutableGet, legacyResult.mutableGet)
+  assert.equal(modernResult.mutableAfterSet(), legacyResult.mutableAfterSet())
+  assert.equal(modernResult.constantGet, legacyResult.constantGet)
 })
 
 test('documented modern divergence: writable function properties remain callable in auto()', () => {
