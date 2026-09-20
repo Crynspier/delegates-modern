@@ -1,6 +1,6 @@
 {
   "name": "delegates-modern",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Modern, dependency-free TypeScript-first implementation of the delegates@1.0.0 core API, with ESM/CJS, first-party types, symbol support, and additive auto() delegation.",
   "license": "MIT",
   "type": "module",
@@ -41,7 +41,7 @@
     "metaprogramming"
   ],
   "scripts": {
-    "clean": "node scripts/clean.mjs",
+    "clean": "npm run clean",
     "build": "node scripts/build.mjs",
     "prepare": "npm run build",
     "prepublishOnly": "npm run check && npm pack --dry-run",
