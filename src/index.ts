@@ -17,8 +17,6 @@ export class Delegator<
   readonly fluents: PropertyKeyLike[]
 
   constructor(proto: Host, target: PropertyKeyLike) {
-    validateHost(proto)
-    validateTargetKey(target)
     this.proto = proto
     this.target = target
     this.methods = []
@@ -55,31 +53,36 @@ export class Delegator<
   }
 
   method<Name extends PropertyKeyLike = PropertyKeyLike>(name: Name): this {
-    validatePropertyKey(name)
     const target = this.target
-    defineProperty(this.proto, name, {
-      value: function (this: Record<PropertyKeyLike, any>, ...args: any[]) {
+    this.methods.push(name)
+
+    Reflect.set(
+      this.proto,
+      name,
+      function (this: Record<PropertyKeyLike, any>, ...args: any[]) {
         const delegated = this[target]
         return delegated[name].apply(delegated, args)
       },
-      writable: true, enumerable: true, configurable: true,
-    })
-    this.methods.push(name)
+      this.proto,
+    )
+
     return this
   }
 
   private methodWithSetter<Name extends PropertyKeyLike = PropertyKeyLike>(name: Name): this {
-    validatePropertyKey(name)
     const target = this.target
     const wrapper = function (this: Record<PropertyKeyLike, any>, ...args: any[]) {
       const delegated = this[target]
       return delegated[name].apply(delegated, args)
     }
+
     defineProperty(this.proto, name, {
       get: function () { return wrapper },
       set: function (this: Record<PropertyKeyLike, any>, value: any) { this[target][name] = value },
-      enumerable: true, configurable: true,
+      enumerable: true,
+      configurable: true,
     })
+
     this.methods.push(name)
     this.setters.push(name)
     return this
@@ -90,47 +93,54 @@ export class Delegator<
   }
 
   getter<Name extends PropertyKeyLike = PropertyKeyLike>(name: Name): this {
-    validatePropertyKey(name)
     const target = this.target
     const current = getOwnDescriptor(this.proto, name)
     const descriptor: PropertyDescriptor = {
       get: function (this: Record<PropertyKeyLike, any>) { return this[target][name] },
-      enumerable: true, configurable: true,
+      enumerable: true,
+      configurable: true,
     }
+
     if (current?.set) descriptor.set = current.set
-    defineProperty(this.proto, name, descriptor)
+
     this.getters.push(name)
+    defineProperty(this.proto, name, descriptor)
     return this
   }
 
   setter<Name extends PropertyKeyLike = PropertyKeyLike>(name: Name): this {
-    validatePropertyKey(name)
     const target = this.target
     const current = getOwnDescriptor(this.proto, name)
     const descriptor: PropertyDescriptor = {
       set: function (this: Record<PropertyKeyLike, any>, value: any) { this[target][name] = value },
-      enumerable: true, configurable: true,
+      enumerable: true,
+      configurable: true,
     }
+
     if (current?.get) descriptor.get = current.get
-    defineProperty(this.proto, name, descriptor)
+
     this.setters.push(name)
+    defineProperty(this.proto, name, descriptor)
     return this
   }
 
   fluent<Name extends PropertyKeyLike = PropertyKeyLike>(name: Name): this {
-    validatePropertyKey(name)
     const target = this.target
-    defineProperty(this.proto, name, {
-      value: function (this: Record<PropertyKeyLike, any>, value?: any) {
+    this.fluents.push(name)
+
+    Reflect.set(
+      this.proto,
+      name,
+      function (this: Record<PropertyKeyLike, any>, value?: any) {
         if (typeof value !== 'undefined') {
           this[target][name] = value
           return this
         }
         return this[target][name]
       },
-      writable: true, enumerable: true, configurable: true,
-    })
-    this.fluents.push(name)
+      this.proto,
+    )
+
     return this
   }
 }
@@ -141,17 +151,21 @@ export type DelegatorFactory = <
 >(proto: Host, target: PropertyKeyLike) => Delegator<Host, Target>
 
 function createDelegator<Host extends object, Target extends object = Record<PropertyKeyLike, unknown>>(
-  proto: Host, target: PropertyKeyLike,
+  proto: Host,
+  target: PropertyKeyLike,
 ): Delegator<Host, Target> {
   return new Delegator<Host, Target>(proto, target)
 }
 
 export interface DelegateFactory {
   <Host extends object, Target extends object = Record<PropertyKeyLike, unknown>>(
-    proto: Host, target: PropertyKeyLike,
+    proto: Host,
+    target: PropertyKeyLike,
   ): Delegator<Host, Target>
   auto<Host extends object, Target extends object>(
-    proto: Host, targetProto: Target, targetProp: PropertyKeyLike,
+    proto: Host,
+    targetProto: Target,
+    targetProp: PropertyKeyLike,
   ): Delegator<Host, Target>
   Delegator: typeof Delegator
 }
@@ -163,18 +177,10 @@ export const delegate: DelegateFactory = Object.assign(createDelegator, {
 
 export default delegate
 
-function validateHost(proto: unknown): asserts proto is object {
-  if ((typeof proto !== 'object' || proto === null) && typeof proto !== 'function') {
-    throw new TypeError('proto must be an object or function')
-  }
-}
-function validateTargetKey(target: PropertyKeyLike): void { validatePropertyKey(target) }
-function validatePropertyKey(key: unknown): asserts key is PropertyKeyLike {
-  if (typeof key !== 'string' && typeof key !== 'symbol') throw new TypeError('property names must be strings or symbols')
-}
 function getOwnDescriptor(target: object, key: PropertyKeyLike): PropertyDescriptor | undefined {
   return Object.getOwnPropertyDescriptor(target, key)
 }
+
 function defineProperty(target: object, key: PropertyKeyLike, descriptor: PropertyDescriptor): void {
   Object.defineProperty(target, key, descriptor)
 }
@@ -182,7 +188,9 @@ function defineProperty(target: object, key: PropertyKeyLike, descriptor: Proper
 export type DelegatedMethods<Target extends object, Names extends keyof Target> = {
   [Name in Names]: Target[Name] extends AnyFunction ? Target[Name] : never
 }
+
 export type DelegatedProperties<Target extends object, Names extends keyof Target> = {
   [Name in Names]: Target[Name]
 }
+
 export type DelegatedMethodName<Target extends object> = MethodKeys<Target>
