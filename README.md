@@ -113,7 +113,7 @@ See [COMPATIBILITY.md](./COMPATIBILITY.md) for the exact compatibility surface a
 - differential compatibility tests against `delegates@1.0.0`
 - type-level tests
 - benchmarks
-- Node 18/20/22/24/26 CI
+- Node 18/20/22/24/26 CI across Linux, Windows, and macOS (ARM64 primary; Intel smoke test)
 - zero runtime dependencies
 
 ```sh
