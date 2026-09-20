@@ -14,7 +14,7 @@ The following core operations are intended to match `delegates@1.0.0`:
 - `.access(name)`
 - `.fluent(name)`
 - tracking arrays: `methods`, `getters`, `setters`, and `fluents`
-- target-method `this) binding
+- target-method `this` binding
 - getter/setter preservation when adding the other accessor half
 - legacy JavaScript property-key coercion at runtime
 - assignment semantics for `.method()` and `.fluent()`, including inherited setters and non-writable properties where JavaScript assignment is observable
@@ -27,11 +27,11 @@ These differences are deliberate and are tested separately from the compatibilit
 
 ### 1. `Delegator.auto()` returns the created delegator
 
-Original `delegates@1.0.0` does not explicitly return from `Delegator.auto()`, so its result is `undefined).
+Original `delegates@1.0.0` does not explicitly return from `Delegator.auto()`, so its result is `undefined`.
 
 `delegates-modern` returns the created `Delegator` instance. This supports useful chaining/introspection without changing the delegated properties themselves.
 
-### 2. Writable function properties in `auto())
+### 2. Writable function properties in `auto()`
 
 The original implementation classifies a writable function as a method and then adds a setter, leaving a setter-style property.
 
@@ -67,7 +67,7 @@ Exact behavior can still differ for unusual proxies, exotic host objects, or oth
 
 The repository includes `test/differential.mjs`, which executes the same scenarios against:
 
-- the installed `delegates@1.0.0) reference implementation
+- the installed `delegates@1.0.0` reference implementation
 - `delegates-modern`
 
 The suite is used to catch accidental compatibility regressions while keeping intentional modern differences explicit.
