@@ -1,4 +1,4 @@
-export type PropertyKeyLike = string | symbol
+export type PropertyKeyLike = PropertyKey
 export type AnyFunction = (...args: any[]) => any
 
 type MethodKeys<T extends object> = {
@@ -145,10 +145,16 @@ export class Delegator<
   }
 }
 
-export type DelegatorFactory = <
-  Host extends object,
-  Target extends object = Record<PropertyKeyLike, unknown>,
->(proto: Host, target: PropertyKeyLike) => Delegator<Host, Target>
+export type DelegatorFactory = {
+  <
+    Host extends object,
+    Target extends object = Record<PropertyKeyLike, unknown>,
+  >(proto: Host, target: PropertyKeyLike): Delegator<Host, Target>
+  new <
+    Host extends object,
+    Target extends object = Record<PropertyKeyLike, unknown>,
+  >(proto: Host, target: PropertyKeyLike): Delegator<Host, Target>
+}
 
 function createDelegator<Host extends object, Target extends object = Record<PropertyKeyLike, unknown>>(
   proto: Host,
