@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 - 2026-09-20
+
+### Build and packaging
+
+- Added macOS ARM64 CI coverage across Node 18, 20, 22, 24, and 26.
+- Added a macOS Intel smoke-test job on Node 26.
+- Standardized CI coverage across Linux, Windows, macOS ARM64, and macOS Intel.
+- Bumped the package version for the expanded cross-platform release validation.
+- No runtime API or delegation behavior changes.
+
 ## 0.1.1 - 2026-09-20
 
 ### Compatibility
