@@ -1,7 +1,7 @@
 {
   "name": "delegates-modern",
-  "version": "0.1.0",
-  "description": "A modern, dependency-free TypeScript-first alternative to delegates for Node.js object and method delegation.",
+  "version": "0.1.1",
+  "description": "Modern, dependency-free TypeScript-first implementation of the delegates@1.0.0 core API, with ESM/CJS, first-party types, symbol support, and additive auto() delegation.",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -29,13 +29,16 @@
   "keywords": [
     "delegates",
     "delegation",
+    "delegates-compatible",
     "object-delegation",
     "property-delegation",
-    "nodejs",
     "typescript",
     "javascript",
+    "nodejs",
     "esm",
-    "commonjs"
+    "commonjs",
+    "fluent-api",
+    "metaprogramming"
   ],
   "scripts": {
     "clean": "node scripts/clean.mjs",
