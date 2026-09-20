@@ -19,7 +19,7 @@ The following core operations are intended to match `delegates@1.0.0`:
 - legacy JavaScript property-key coercion at runtime
 - assignment semantics for `.method()` and `.fluent()`, including inherited setters and non-writable properties where JavaScript assignment is observable
 
-The project deliberately keeps TypeScript declarations narrower than JavaScript's runtime coercion. TypeScript callers use the standard `PropertyKey` type (`string | number | symbol`); JavaScript callers retain normal property-key coercion behavior.
+TypeScript callers use the standard `PropertyKey` type (`string | number | symbol`). JavaScript callers also retain normal property-key coercion, including values such as `null` and `undefined` when used from plain JavaScript.
 
 ## Intentional modern differences
 
@@ -37,7 +37,7 @@ The original implementation classifies a writable function as a method and then 
 
 `delegates-modern` treats a writable function as a callable delegated property with a getter returning the wrapper and a setter updating the target. This preserves both calling and assignment behavior.
 
-### 3. Symbols are included by `auto())
+### 3. Symbols are included by `auto()`
 
 The original `auto()` uses `Object.getOwnPropertyNames()`, so symbol keys are not discovered automatically.
 
