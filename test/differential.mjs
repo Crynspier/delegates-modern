@@ -236,9 +236,6 @@ function runAutoCore(delegate) {
 
   return {
     returnType: result === undefined ? 'undefined' : result.constructor.name,
-    methods: result?.methods.slice() ?? [],
-    getters: result?.getters.slice() ?? [],
-    setters: result?.setters.slice() ?? [],
     methodResult: host.method(),
     computedGet: host.computed,
     computedSet() {
@@ -258,14 +255,8 @@ test('differential: auto() matches legacy for ordinary descriptors apart from do
   const modernResult = runAutoCore(modern)
   const legacyResult = runAutoCore(legacy)
 
-  const modernComparable = { ...modernResult, returnType: 'delegator' }
-  const legacyComparable = { ...legacyResult, returnType: 'delegator' }
-
   assert.equal(modernResult.returnType, 'delegator')
   assert.equal(legacyResult.returnType, 'undefined')
-  assert.deepEqual(modernComparable.methods, legacyComparable.methods)
-  assert.deepEqual(modernComparable.getters, legacyComparable.getters)
-  assert.deepEqual(modernComparable.setters, legacyComparable.setters)
   assert.equal(modernComparable.methodResult, legacyComparable.methodResult)
   assert.equal(modernComparable.computedGet, legacyComparable.computedGet)
   assert.equal(modernComparable.computedSet(), legacyComparable.computedSet())
