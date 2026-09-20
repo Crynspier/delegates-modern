@@ -21,29 +21,23 @@ The following core operations are intended to match `delegates@1.0.0`:
 
 TypeScript callers use the standard `PropertyKey` type (`string | number | symbol`). JavaScript callers also retain normal property-key coercion, including values such as `null` and `undefined` when used from plain JavaScript.
 
-## Intentional modern differences
+## Intentional modern additions and differences
 
-These differences are deliberate and are tested separately from the compatibility suite.
+These features are deliberately outside the published `delegates@1.0.0` compatibility surface.
 
-### 1. `Delegator.auto()` returns the created delegator
+### 1. `Delegator.auto()` / `delegate.auto()`
 
-Original `delegates@1.0.0` does not explicitly return from `Delegator.auto()`, so its result is `undefined`.
+The published `delegates@1.0.0` package does not expose `auto()`. Its tagged source ends after the core `method()`, `access()`, `getter()`, `setter()`, and `fluent()` APIs. A newer upstream `master` revision contains an `auto()` implementation, but that is not part of the 1.0.0 npm release. citeturn351569view0turn128362view0
 
-`delegates-modern` returns the created `Delegator` instance. This supports useful chaining/introspection without changing the delegated properties themselves.
+`delegates-modern` therefore treats `auto()` as an additive modern API rather than a compatibility requirement.
 
 ### 2. Writable function properties in `auto()`
 
-The original implementation classifies a writable function as a method and then adds a setter, leaving a setter-style property.
-
-`delegates-modern` treats a writable function as a callable delegated property with a getter returning the wrapper and a setter updating the target. This preserves both calling and assignment behavior.
+The modern `auto()` implementation treats writable function-valued properties as callable delegated properties with a getter returning the wrapper and a setter updating the target. This behavior is tested independently because `auto()` is not part of the published 1.0.0 API.
 
 ### 3. Symbols are included by `auto()`
 
-The original `auto()` uses `Object.getOwnPropertyNames()`, so symbol keys are not discovered automatically.
-
-`delegates-modern` uses `Reflect.ownKeys()`, so symbol properties are included.
-
-Manual symbol delegation is also supported.
+The modern `auto()` implementation uses `Reflect.ownKeys()`, so symbol properties are discovered automatically. Manual symbol delegation is also supported. This is additive because `auto()` is not in the published 1.0.0 API.
 
 ### 4. Modern module packaging
 
@@ -54,6 +48,14 @@ The original package exports the `Delegator` constructor directly from CommonJS.
 ### 5. Node runtime floor
 
 `delegates-modern` declares Node.js `>=18`. Consumers supporting older Node releases cannot treat it as a transparent replacement without an additional compatibility decision.
+
+### 6. Function detection in `auto()`
+
+The newer upstream `auto()` implementation uses `value instanceof Function`, while `delegates-modern` uses `typeof value === 'function'`, which is generally more robust for functions originating from another JavaScript realm.
+
+### 7. TypeScript cannot fully model `auto()`
+
+`auto()` inspects runtime property descriptors, including getters, setters, writable data properties, functions, and symbols. The generic TypeScript API cannot completely express every property transformation produced by that runtime inspection. The package therefore does not claim that automatic delegation is fully statically inferred.
 
 ## Descriptor semantics
 
