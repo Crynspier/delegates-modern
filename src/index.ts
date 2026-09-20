@@ -168,6 +168,10 @@ export interface DelegateFactory {
     proto: Host,
     target: PropertyKeyLike,
   ): Delegator<Host, Target>
+  new <Host extends object, Target extends object = Record<PropertyKeyLike, unknown>>(
+    proto: Host,
+    target: PropertyKeyLike,
+  ): Delegator<Host, Target>
   auto<Host extends object, Target extends object>(
     proto: Host,
     targetProto: Target,
