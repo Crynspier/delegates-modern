@@ -180,10 +180,10 @@ export interface DelegateFactory {
   Delegator: typeof Delegator
 }
 
-export const delegate: DelegateFactory = Object.assign(createDelegator, {
+export const delegate = Object.assign(createDelegator, {
   auto: Delegator.auto,
   Delegator,
-})
+}) as DelegateFactory
 
 export default delegate
 
