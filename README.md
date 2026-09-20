@@ -5,7 +5,7 @@
 
 **A tiny, dependency-free, TypeScript-first object and method delegation library for Node.js.**
 
-A maintained modern implementation of the established [`delegates`](https://www.npmjs.com/package/delegates) API: delegate methods, getters, setters, accessors, fluent properties, and whole target prototypes onto a host object or prototype.
+A maintained modern implementation of the published [`delegates@1.0.0`](https://www.npmjs.com/package/delegates) core API: delegate methods, getters, setters, accessors, and fluent properties. It also adds modern ESM/TypeScript packaging, symbol support, and an additive `auto()` helper.
 
 ## Why this exists
 
@@ -13,7 +13,7 @@ A maintained modern implementation of the established [`delegates`](https://www.
 
 `delegates-modern` provides:
 
-- the established `method()`, `getter()`, `setter()`, `access()`, `fluent()`, and `auto()` operations
+- the established `method()`, `getter()`, `setter()`, `access()`, and `fluent()` operations
 - ESM and CommonJS
 - first-party TypeScript declarations
 - symbol property support
@@ -77,7 +77,7 @@ Creates a method-like accessor. With no defined value it reads the target proper
 
 ### `Delegator.auto(proto, targetProto, targetProp)`
 
-Inspects the target prototype's own property descriptors and delegates its methods, getters, setters, and data properties automatically.
+**Modern additive API.** `delegates@1.0.0` does not expose `auto()`. The helper inspects the target object's own property descriptors and delegates methods, getters, setters, and data properties automatically. It additionally discovers symbol keys.
 
 ## TypeScript
 
@@ -100,7 +100,7 @@ delegate<Context, Request>(Context.prototype, 'request')
 
 ## Compatibility
 
-The public API and observable behavior of the original `delegates` package are the compatibility target. Modern improvements are additive where they do not needlessly change established semantics.
+The published `delegates@1.0.0` core API and its observable behavior are the compatibility target. Modern additions such as `auto()` and symbol discovery are explicitly additive.
 
 See [COMPATIBILITY.md](./COMPATIBILITY.md) for the exact compatibility surface and intentional improvements.
 
