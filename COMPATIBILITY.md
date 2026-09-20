@@ -49,7 +49,7 @@ Manual symbol delegation is also supported.
 
 The original package exports the `Delegator` constructor directly from CommonJS.
 
-`delegates-modern` provides ESM and CommonJS entry points with a callable default/factory export plus a named `Delegator` class. The modern package therefore does not promise constructor identity compatibility with the original module export.
+`delegates-modern` provides ESM and CommonJS entry points with a callable default/factory export plus a named `Delegator` class. The factory shares `Delegator.prototype`, so instances satisfy `instanceof delegate` as well as `instanceof delegate.Delegator`; the package still does not promise exact constructor-function identity with the original module export.
 
 ### 5. Node runtime floor
 
