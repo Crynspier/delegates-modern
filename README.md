@@ -18,7 +18,7 @@ A maintained modern implementation of the established [`delegates`](https://www.
 - first-party TypeScript declarations
 - symbol property support
 - standards-based `Object.defineProperty` descriptors
-- explicit descriptor behavior and stronger validation
+- explicit descriptor behavior and legacy-compatible runtime semantics
 - zero runtime dependencies
 
 ## Install
@@ -110,6 +110,7 @@ See [COMPATIBILITY.md](./COMPATIBILITY.md) for the exact compatibility surface a
 - symbol tests
 - `auto()` descriptor classification tests
 - CommonJS/ESM verification
+- differential compatibility tests against `delegates@1.0.0`
 - type-level tests
 - benchmarks
 - Node 18/20/22/24/26 CI
