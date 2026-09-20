@@ -79,7 +79,7 @@ The original `delegates@1.0.0` package is a test-only development dependency; it
 
 The original implementation uses `value instanceof Function` when classifying function-valued descriptors. `delegates-modern` uses `typeof value === 'function'`, which is generally more robust for functions originating from another JavaScript realm. This is an intentional runtime-detection difference.
 
-### 7. TypeScript cannot fully model `auto())
+### 7. TypeScript cannot fully model `auto()`
 
 `auto()` inspects runtime property descriptors, including getters, setters, writable data properties, functions, and symbols. The generic TypeScript API cannot completely express every property transformation produced by that runtime inspection. The package therefore does not claim that automatic delegation is fully statically inferred.
 
