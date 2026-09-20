@@ -10,7 +10,7 @@ test('target errors propagate',()=>{const e=Error('boom');const h={target:{get v
 test('method errors propagate',()=>{const e=Error('boom');const h={target:{run(){throw e}}};delegate(h,'target').method('run');assert.throws(()=>h.run(),x=>x===e)})
 test('setter errors propagate',()=>{const e=Error('boom');const h={target:{set value(_){throw e}}};delegate(h,'target').setter('value');assert.throws(()=>{h.value=1},x=>x===e)})
 test('fluent setter returns host',()=>{const h={target:{value:1}};delegate(h,'target').fluent('value');assert.equal(h.value(2),h);assert.equal(h.target.value,2)})
-test('multiple delegators coexist',()=>{const h={a:{value:1},b:{value:2}};delegate(h,'a').getter('aValue');delegate(h,'b').getter('bValue');assert.equal(h.aValue,1);assert.equal(h.bValue,2)})
+test('multiple delegators coexist',()=>{const h={a:{aValue:1},b:{bValue:2}};delegate(h,'a').getter('aValue');delegate(h,'b').getter('bValue');assert.equal(h.aValue,1);assert.equal(h.bValue,2)})
 test('auto handles symbols',()=>{const k=Symbol('x');const t={[k]:42};const h={target:t};Delegator.auto(h,t,'target');assert.equal(h[k],42)})
 test('method supports symbols',()=>{const k=Symbol('m');const t={[k](v){return this.value+v},value:4};const h={target:t};delegate(h,'target').method(k);assert.equal(h[k](3),7)})
 test('writable function auto preserves call+assignment',()=>{const t={fn(){return 1}};const h={target:t};Delegator.auto(h,t,'target');assert.equal(typeof h.fn,'function');assert.equal(h.fn(),1);t.fn=()=>2;assert.equal(h.fn(),2);const repl=()=>3;h.fn=repl;assert.equal(t.fn,repl)})
