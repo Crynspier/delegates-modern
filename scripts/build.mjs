@@ -25,6 +25,7 @@ const cjsEntry = [
   '',
   'module.exports = delegate',
   'module.exports.default = delegate',
+  'module.exports.delegate = delegate',
   'module.exports.Delegator = mod.Delegator',
   'module.exports.auto = mod.Delegator.auto',
   '',
