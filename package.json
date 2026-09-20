@@ -45,13 +45,14 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.types.json --noEmit",
     "lint": "node scripts/lint.mjs",
     "test": "npm run build && node --test test/*.mjs",
-    "coverage": "npm run build && node --test --experimental-test-coverage test/*.mjs",
+    "coverage": "npm run build && c8 --reporter=text --reporter=text-summary --include=dist/index.js node --test test/*.mjs",
     "check": "npm run typecheck && npm run lint && npm test",
     "bench": "npm run build && node bench/bench.mjs",
     "pack:check": "npm run check && npm pack --dry-run"
   },
   "devDependencies": {
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "c8": "12.0.0"
   },
   "repository": {
     "type": "git",
