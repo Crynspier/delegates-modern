@@ -163,6 +163,8 @@ function createDelegator<Host extends object, Target extends object = Record<Pro
   return new Delegator<Host, Target>(proto, target)
 }
 
+createDelegator.prototype = Delegator.prototype
+
 export interface DelegateFactory {
   <Host extends object, Target extends object = Record<PropertyKeyLike, unknown>>(
     proto: Host,
