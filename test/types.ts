@@ -14,7 +14,12 @@ const d = delegate<Host, Target>(proto, 'target')
 d.method('run').getter('value').setter('value').access('value').fluent('value')
 
 const methodName: DelegatedMethodName<Target> = 'run'
+const numericKey: PropertyKey = 123
 const direct = new Delegator<Host, Target>(proto, 'target')
 direct.method(methodName)
+direct.getter(numericKey)
+
+const constructed = new delegate<Host, Target>(proto, 'target')
 
 void d
+void constructed
