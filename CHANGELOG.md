@@ -9,6 +9,7 @@
 - Restored legacy-compatible `[[Set]]` behavior for `.method()` and `.fluent()`, including inherited setters and non-writable properties.
 - Preserved legacy observable bookkeeping by recording delegated names before property definition/assignment attempts.
 - Restored TypeScript support for constructible `delegate(...)` calls and numeric property keys via the standard `PropertyKey` type.
+- Aligned the factory prototype with `Delegator.prototype` so `instanceof delegate` remains compatible with the original constructor-style API.
 - Documented the remaining intentional differences in `Delegator.auto()`, symbol discovery, module export shape, and Node.js version support.
 
 ### Build and packaging
