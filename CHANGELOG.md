@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+### Compatibility
+
+- Added a differential test suite against the actual `delegates@1.0.0` reference package.
+- Restored legacy-compatible runtime property-key coercion instead of rejecting JavaScript values before property access.
+- Restored legacy-compatible `[[Set]]` behavior for `.method()` and `.fluent()`, including inherited setters and non-writable properties.
+- Preserved legacy observable bookkeeping by recording delegated names before property definition/assignment attempts.
+- Documented the remaining intentional differences in `Delegator.auto()`, symbol discovery, module export shape, and Node.js version support.
+
+### Build and packaging
+
+- Replaced the hand-maintained CommonJS implementation with a generated CommonJS build from the TypeScript source.
+- Added cross-platform Windows/Linux CI coverage for Node 18, 20, 22, 24, and 26.
+- Made test and coverage commands invoke explicit test files instead of relying on shell glob expansion.
+- Kept `delegates@1.0.0` as a development-only differential-test dependency; it is not a runtime dependency.
+
 ## 0.1.0 - 2026-09-20
 
 Initial public-release candidate.
