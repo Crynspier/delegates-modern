@@ -232,7 +232,7 @@ function runAutoCore(delegate) {
   target.value = 10
 
   const host = { target }
-  const result = delegate.Delegator.auto(host, target, 'target')
+  const result = delegate.auto(host, target, 'target')
 
   return {
     returnType: result === undefined ? 'undefined' : result.constructor.name,
@@ -291,7 +291,7 @@ test('documented modern divergence: writable function properties remain callable
       configurable: true,
     })
 
-    const result = delegate.Delegator.auto(host, target, 'target')
+    const result = delegate.auto(host, target, 'target')
 
     return {
       returnValue: result?.methods ? host.method() : undefined,
