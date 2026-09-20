@@ -139,6 +139,17 @@ function runAssignmentCompatibility(delegate) {
   const inheritedSetterCalls = host.inheritedWrites ?? 0
   const ownMethodDescriptor = descriptorShape(host, 'inherited')
 
+  const fluentParent = {
+    set fluent(value) {
+      this.fluentWrites = value
+    },
+  }
+  const fluentHost = Object.create(fluentParent)
+  fluentHost.target = { fluent: 'initial' }
+  const fluentDelegator = delegate(fluentHost, 'target')
+  fluentDelegator.fluent('fluent')
+  const inheritedFluentSetterCalls = typeof fluentHost.fluentWrites
+
   const locked = Object.create(null)
   Object.defineProperty(locked, 'locked', {
     value: 'original',
@@ -158,6 +169,7 @@ function runAssignmentCompatibility(delegate) {
   return {
     inheritedSetterCalls,
     ownMethodDescriptor,
+    inheritedFluentSetterCalls,
     lockedError: lockedError === null ? null : {
       name: lockedError.name,
       message: lockedError.message,
