@@ -19,7 +19,7 @@ The following core operations are intended to match `delegates@1.0.0`:
 - legacy JavaScript property-key coercion at runtime
 - assignment semantics for `.method()` and `.fluent()`, including inherited setters and non-writable properties where JavaScript assignment is observable
 
-The project deliberately keeps TypeScript declarations narrower than JavaScript's runtime coercion. TypeScript callers use `string | symbol` property keys; JavaScript callers retain normal property-key coercion behavior.
+The project deliberately keeps TypeScript declarations narrower than JavaScript's runtime coercion. TypeScript callers use the standard `PropertyKey` type (`string | number | symbol`); JavaScript callers retain normal property-key coercion behavior.
 
 ## Intentional modern differences
 
