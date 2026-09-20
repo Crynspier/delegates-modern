@@ -341,5 +341,7 @@ test('legacy compatibility contract: both factory and constructor forms remain u
   assert.equal(legacyConstructed instanceof legacy, true)
 
   assert.equal(modernDelegator instanceof modern.Delegator, true)
+  assert.equal(modernDelegator instanceof modern, true)
   assert.equal(modernConstructed instanceof modern.Delegator, true)
+  assert.equal(modernConstructed instanceof modern, true)
 })
